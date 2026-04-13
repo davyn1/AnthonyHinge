@@ -19,3 +19,9 @@ Just open `anthony-profile.html` in a browser. Submissions are saved to `localSt
 ## Admin Access
 
 Open `admin.html` and enter the admin password (default: `anthony2025`). Change the `ADMIN_PASSWORD` constant in `admin.html` before sharing the page.
+
+## Future Plans
+
+- **AWS Backend & Database** — Set up API Gateway + Lambda + DynamoDB so submissions are stored in the cloud instead of `localStorage`. This allows Anthony to view matches from any device and ensures no data is lost when the browser cache is cleared.
+- **Hosting** — Deploy the site to a public URL (e.g. AWS S3 + CloudFront, or a service like Netlify/Vercel) so the profile page can be shared as a link without needing to open a local file.
+- **QR Code** — Generate a QR code pointing to the hosted profile URL. Print or display it so people can scan and open Anthony's profile instantly (e.g. at events or on a business card).
