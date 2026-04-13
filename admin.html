@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Anthony's Matches</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f5f0eb;
+      min-height: 100vh;
+      font-family: 'DM Sans', sans-serif;
+      padding: 32px 16px 60px;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 30px;
+      color: #1c1815;
+      margin-bottom: 4px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #8c7b6e;
+      margin-bottom: 28px;
+    }
+
+    /* ── Password gate ── */
+    #gate {
+      background: #fff;
+      border-radius: 20px;
+      padding: 32px 28px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      max-width: 360px;
+      margin: 60px auto 0;
+      text-align: center;
+    }
+
+    #gate h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      color: #1c1815;
+      margin-bottom: 8px;
+    }
+
+    #gate p { font-size: 14px; color: #8c7b6e; margin-bottom: 20px; }
+
+    .inp {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid #e0d8ce;
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      color: #1c1815;
+      background: #faf8f5;
+      outline: none;
+      margin-bottom: 12px;
+      transition: border-color 0.2s;
+    }
+
+    .inp:focus { border-color: #E40071; }
+
+    .btn-primary {
+      width: 100%;
+      padding: 14px;
+      background: #E40071;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .btn-primary:hover { opacity: 0.88; }
+
+    #gateError {
+      color: #E40071;
+      font-size: 13px;
+      margin-top: 10px;
+      display: none;
+    }
+
+    /* ── Dashboard ── */
+    #dashboard { display: none; }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .stat-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .stat {
+      background: #fff;
+      border-radius: 16px;
+      padding: 16px 20px;
+      flex: 1;
+      min-width: 120px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 32px;
+      color: #E40071;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #8c7b6e;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-top: 4px;
+    }
+
+    /* ── Filters ── */
+    .filters {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 7px 16px;
+      border-radius: 20px;
+      border: 1.5px solid #e0d8ce;
+      background: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #8c7b6e;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .filter-btn.active {
+      background: #E40071;
+      border-color: #E40071;
+      color: #fff;
+    }
+
+    /* ── Cards ── */
+    .card-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .entry-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 16px 18px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: box-shadow 0.15s;
+    }
+
+    .entry-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.10); }
+
+    .avatar {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: #fde8f1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Serif Display', serif;
+      font-size: 18px;
+      color: #E40071;
+      flex-shrink: 0;
+    }
+
+    .entry-info { flex: 1; min-width: 0; }
+
+    .entry-name {
+      font-weight: 600;
+      font-size: 15px;
+      color: #1c1815;
+    }
+
+    .entry-contact {
+      font-size: 14px;
+      color: #5a5248;
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .entry-meta {
+      font-size: 11px;
+      color: #b8a898;
+      margin-top: 3px;
+    }
+
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+
+    .badge-phone { background: #eef4ff; color: #2563eb; }
+    .badge-insta { background: #fce7f3; color: #be185d; }
+
+    /* ── Empty / loading ── */
+    .empty {
+      text-align: center;
+      padding: 48px 20px;
+      color: #8c7b6e;
+    }
+
+    .empty div:first-child { font-size: 36px; margin-bottom: 12px; }
+    .empty p { font-size: 14px; line-height: 1.6; }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #b8a898;
+      font-size: 14px;
+    }
+
+    /* ── Refresh btn ── */
+    .refresh-btn {
+      padding: 9px 18px;
+      border: 1.5px solid #e0d8ce;
+      border-radius: 12px;
+      background: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: #5a5248;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .refresh-btn:hover { border-color: #E40071; color: #E40071; }
+
+    .logout-btn {
+      padding: 9px 18px;
+      border: 1.5px solid #e0d8ce;
+      border-radius: 12px;
+      background: #fff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: #8c7b6e;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .logout-btn:hover { color: #E40071; border-color: #E40071; }
+  </style>
+</head>
+<body>
+
+<!-- ── Password Gate ── -->
+<div id="gate">
+  <div style="font-size:36px;margin-bottom:10px;">🔐</div>
+  <h2>Admin Access</h2>
+  <p>Enter the admin password to view submissions.</p>
+  <input id="pwInput" class="inp" type="password" placeholder="Password"
+    onkeydown="if(event.key==='Enter') checkPassword()">
+  <button class="btn-primary" onclick="checkPassword()">Enter</button>
+  <div id="gateError">Wrong password. Try again.</div>
+</div>
+
+<!-- ── Dashboard ── -->
+<div id="dashboard" class="container">
+  <div class="topbar">
+    <div>
+      <h1>💘 Anthony's Matches</h1>
+      <div class="subtitle" id="lastRefresh">Loading submissions…</div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="refresh-btn" onclick="loadSubmissions()">↻ Refresh</button>
+      <button class="logout-btn" onclick="logout()">Log out</button>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stat-row">
+    <div class="stat">
+      <div class="stat-num" id="statTotal">—</div>
+      <div class="stat-label">Total Matches</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="statPhone">—</div>
+      <div class="stat-label">📱 Phone</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num" id="statInsta">—</div>
+      <div class="stat-label">📸 Instagram</div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters">
+    <button class="filter-btn active" id="f-all"   onclick="setFilter('all')">All</button>
+    <button class="filter-btn"        id="f-phone"  onclick="setFilter('phone')">📱 Phone</button>
+    <button class="filter-btn"        id="f-instagram" onclick="setFilter('instagram')">📸 Instagram</button>
+  </div>
+
+  <!-- Cards -->
+  <div class="card-grid" id="cardGrid">
+    <div class="loading">Loading…</div>
+  </div>
+</div>
+
+<script>
+  // ── CONFIG ──────────────────────────────────────────────────
+  // Replace with your actual API Gateway URL (same one from the profile page)
+  const API_URL = 'YOUR_API_GATEWAY_URL_HERE';
+
+  // Simple client-side password. For real security, add auth to your Lambda.
+  // Change this to something only you know.
+  const ADMIN_PASSWORD = 'anthony2025';
+  // ────────────────────────────────────────────────────────────
+
+  let allSubmissions = [];
+  let activeFilter   = 'all';
+
+  // ── Password gate ──
+  function checkPassword() {
+    const val = document.getElementById('pwInput').value;
+    if (val === ADMIN_PASSWORD) {
+      sessionStorage.setItem('adminAuth', '1');
+      document.getElementById('gate').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      loadSubmissions();
+    } else {
+      document.getElementById('gateError').style.display = 'block';
+      document.getElementById('pwInput').value = '';
+      document.getElementById('pwInput').focus();
+    }
+  }
+
+  function logout() {
+    sessionStorage.removeItem('adminAuth');
+    location.reload();
+  }
+
+  // Auto-restore session
+  if (sessionStorage.getItem('adminAuth') === '1') {
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    loadSubmissions();
+  }
+
+  // ── Load submissions ──
+  async function loadSubmissions() {
+    document.getElementById('cardGrid').innerHTML = '<div class="loading">Fetching submissions…</div>';
+
+    try {
+      const res  = await fetch(API_URL + '?action=list', { method: 'GET' });
+      const data = await res.json();
+      allSubmissions = (data.submissions || []).sort((a, b) =>
+        new Date(b.submittedAt) - new Date(a.submittedAt)
+      );
+    } catch (e) {
+      // Dev fallback — read from localStorage if API not set up yet
+      allSubmissions = JSON.parse(localStorage.getItem('anthony_submissions') || '[]')
+        .sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+      console.warn('Using localStorage fallback. Set API_URL to use DynamoDB.');
+    }
+
+    updateStats();
+    renderCards();
+    document.getElementById('lastRefresh').textContent =
+      'Last refreshed: ' + new Date().toLocaleTimeString();
+  }
+
+  // ── Stats ──
+  function updateStats() {
+    const phone = allSubmissions.filter(s => s.contactType === 'phone').length;
+    const insta  = allSubmissions.filter(s => s.contactType === 'instagram').length;
+    document.getElementById('statTotal').textContent = allSubmissions.length;
+    document.getElementById('statPhone').textContent = phone;
+    document.getElementById('statInsta').textContent = insta;
+  }
+
+  // ── Filter ──
+  function setFilter(f) {
+    activeFilter = f;
+    ['all','phone','instagram'].forEach(id => {
+      document.getElementById('f-' + id).classList.toggle('active', id === f);
+    });
+    renderCards();
+  }
+
+  // ── Render ──
+  function renderCards() {
+    const filtered = activeFilter === 'all'
+      ? allSubmissions
+      : allSubmissions.filter(s => s.contactType === activeFilter);
+
+    const grid = document.getElementById('cardGrid');
+
+    if (!filtered.length) {
+      grid.innerHTML = `
+        <div class="empty">
+          <div>🌵</div>
+          <p>No ${activeFilter === 'all' ? '' : activeFilter + ' '}submissions yet.<br>Share the QR code!</p>
+        </div>`;
+      return;
+    }
+
+    grid.innerHTML = filtered.map(s => {
+      const initials = s.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+      const time = new Date(s.submittedAt).toLocaleString(undefined, {
+        month: 'short', day: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      });
+      const isPhone = s.contactType === 'phone';
+      const contactIcon = isPhone ? '📱' : '📸';
+      const badgeClass  = isPhone ? 'badge-phone' : 'badge-insta';
+      const badgeLabel  = isPhone ? 'Phone' : 'Instagram';
+
+      return `
+        <div class="entry-card">
+          <div class="avatar">${initials}</div>
+          <div class="entry-info">
+            <div class="entry-name">${escHtml(s.name)}</div>
+            <div class="entry-contact">${contactIcon} ${escHtml(s.contact)}</div>
+            <div class="entry-meta">${time}</div>
+          </div>
+          <span class="badge ${badgeClass}">${badgeLabel}</span>
+        </div>`;
+    }).join('');
+  }
+
+  function escHtml(str) {
+    return String(str)
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;');
+  }
+</script>
+
+</body>
+</html>
