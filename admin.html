@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin — Anthony's Matches</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       background: #f5f0eb;
@@ -38,7 +46,7 @@
       background: #fff;
       border-radius: 20px;
       padding: 32px 28px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
       max-width: 360px;
       margin: 60px auto 0;
       text-align: center;
@@ -51,7 +59,11 @@
       margin-bottom: 8px;
     }
 
-    #gate p { font-size: 14px; color: #8c7b6e; margin-bottom: 20px; }
+    #gate p {
+      font-size: 14px;
+      color: #8c7b6e;
+      margin-bottom: 20px;
+    }
 
     .inp {
       width: 100%;
@@ -67,7 +79,9 @@
       transition: border-color 0.2s;
     }
 
-    .inp:focus { border-color: #E40071; }
+    .inp:focus {
+      border-color: #E40071;
+    }
 
     .btn-primary {
       width: 100%;
@@ -83,7 +97,9 @@
       transition: opacity 0.15s;
     }
 
-    .btn-primary:hover { opacity: 0.88; }
+    .btn-primary:hover {
+      opacity: 0.88;
+    }
 
     #gateError {
       color: #E40071;
@@ -93,7 +109,9 @@
     }
 
     /* ── Dashboard ── */
-    #dashboard { display: none; }
+    #dashboard {
+      display: none;
+    }
 
     .topbar {
       display: flex;
@@ -117,7 +135,7 @@
       padding: 16px 20px;
       flex: 1;
       min-width: 120px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
     }
 
     .stat-num {
@@ -173,17 +191,20 @@
       background: #fff;
       border-radius: 16px;
       padding: 16px 18px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
       display: flex;
       align-items: center;
       gap: 14px;
       transition: box-shadow 0.15s;
     }
 
-    .entry-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.10); }
+    .entry-card:hover {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
+    }
 
     .avatar {
-      width: 46px; height: 46px;
+      width: 46px;
+      height: 46px;
       border-radius: 50%;
       background: #fde8f1;
       display: flex;
@@ -195,7 +216,10 @@
       flex-shrink: 0;
     }
 
-    .entry-info { flex: 1; min-width: 0; }
+    .entry-info {
+      flex: 1;
+      min-width: 0;
+    }
 
     .entry-name {
       font-weight: 600;
@@ -226,8 +250,15 @@
       flex-shrink: 0;
     }
 
-    .badge-phone { background: #eef4ff; color: #2563eb; }
-    .badge-insta { background: #fce7f3; color: #be185d; }
+    .badge-phone {
+      background: #eef4ff;
+      color: #2563eb;
+    }
+
+    .badge-insta {
+      background: #fce7f3;
+      color: #be185d;
+    }
 
     /* ── Empty / loading ── */
     .empty {
@@ -236,8 +267,15 @@
       color: #8c7b6e;
     }
 
-    .empty div:first-child { font-size: 36px; margin-bottom: 12px; }
-    .empty p { font-size: 14px; line-height: 1.6; }
+    .empty div:first-child {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+
+    .empty p {
+      font-size: 14px;
+      line-height: 1.6;
+    }
 
     .loading {
       text-align: center;
@@ -263,7 +301,10 @@
       gap: 6px;
     }
 
-    .refresh-btn:hover { border-color: #E40071; color: #E40071; }
+    .refresh-btn:hover {
+      border-color: #E40071;
+      color: #E40071;
+    }
 
     .logout-btn {
       padding: 9px 18px;
@@ -277,174 +318,177 @@
       transition: all 0.15s;
     }
 
-    .logout-btn:hover { color: #E40071; border-color: #E40071; }
+    .logout-btn:hover {
+      color: #E40071;
+      border-color: #E40071;
+    }
   </style>
 </head>
+
 <body>
 
-<!-- ── Password Gate ── -->
-<div id="gate">
-  <div style="font-size:36px;margin-bottom:10px;">🔐</div>
-  <h2>Admin Access</h2>
-  <p>Enter the admin password to view submissions.</p>
-  <input id="pwInput" class="inp" type="password" placeholder="Password"
-    onkeydown="if(event.key==='Enter') checkPassword()">
-  <button class="btn-primary" onclick="checkPassword()">Enter</button>
-  <div id="gateError">Wrong password. Try again.</div>
-</div>
+  <!-- ── Password Gate ── -->
+  <div id="gate">
+    <div style="font-size:36px;margin-bottom:10px;">🔐</div>
+    <h2>Admin Access</h2>
+    <p>Enter the admin password to view submissions.</p>
+    <input id="pwInput" class="inp" type="password" placeholder="Password"
+      onkeydown="if(event.key==='Enter') checkPassword()">
+    <button class="btn-primary" onclick="checkPassword()">Enter</button>
+    <div id="gateError">Wrong password. Try again.</div>
+  </div>
 
-<!-- ── Dashboard ── -->
-<div id="dashboard" class="container">
-  <div class="topbar">
-    <div>
-      <h1>💘 Anthony's Matches</h1>
-      <div class="subtitle" id="lastRefresh">Loading submissions…</div>
+  <!-- ── Dashboard ── -->
+  <div id="dashboard" class="container">
+    <div class="topbar">
+      <div>
+        <h1>💘 Anthony's Matches</h1>
+        <div class="subtitle" id="lastRefresh">Loading submissions…</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="refresh-btn" onclick="loadSubmissions()">↻ Refresh</button>
+        <button class="logout-btn" onclick="logout()">Log out</button>
+      </div>
     </div>
-    <div style="display:flex;gap:8px;">
-      <button class="refresh-btn" onclick="loadSubmissions()">↻ Refresh</button>
-      <button class="logout-btn" onclick="logout()">Log out</button>
+
+    <!-- Stats -->
+    <div class="stat-row">
+      <div class="stat">
+        <div class="stat-num" id="statTotal">—</div>
+        <div class="stat-label">Total Matches</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="statPhone">—</div>
+        <div class="stat-label">📱 Phone</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" id="statInsta">—</div>
+        <div class="stat-label">📸 Instagram</div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+      <button class="filter-btn active" id="f-all" onclick="setFilter('all')">All</button>
+      <button class="filter-btn" id="f-phone" onclick="setFilter('phone')">📱 Phone</button>
+      <button class="filter-btn" id="f-instagram" onclick="setFilter('instagram')">📸 Instagram</button>
+    </div>
+
+    <!-- Cards -->
+    <div class="card-grid" id="cardGrid">
+      <div class="loading">Loading…</div>
     </div>
   </div>
 
-  <!-- Stats -->
-  <div class="stat-row">
-    <div class="stat">
-      <div class="stat-num" id="statTotal">—</div>
-      <div class="stat-label">Total Matches</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num" id="statPhone">—</div>
-      <div class="stat-label">📱 Phone</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num" id="statInsta">—</div>
-      <div class="stat-label">📸 Instagram</div>
-    </div>
-  </div>
+  <script>
+    // ── CONFIG ──────────────────────────────────────────────────
+    // API Gateway URL
+    const API_URL = 'https://imro2j0vq1.execute-api.us-east-2.amazonaws.com';
 
-  <!-- Filters -->
-  <div class="filters">
-    <button class="filter-btn active" id="f-all"   onclick="setFilter('all')">All</button>
-    <button class="filter-btn"        id="f-phone"  onclick="setFilter('phone')">📱 Phone</button>
-    <button class="filter-btn"        id="f-instagram" onclick="setFilter('instagram')">📸 Instagram</button>
-  </div>
+    // admin page password
+    const ADMIN_PASSWORD = 'anthony2025';
+    // ────────────────────────────────────────────────────────────
 
-  <!-- Cards -->
-  <div class="card-grid" id="cardGrid">
-    <div class="loading">Loading…</div>
-  </div>
-</div>
+    let allSubmissions = [];
+    let activeFilter = 'all';
 
-<script>
-  // ── CONFIG ──────────────────────────────────────────────────
-  // Replace with your actual API Gateway URL (same one from the profile page)
-  const API_URL = 'YOUR_API_GATEWAY_URL_HERE';
+    // ── Password gate ──
+    function checkPassword() {
+      const val = document.getElementById('pwInput').value;
+      if (val === ADMIN_PASSWORD) {
+        sessionStorage.setItem('adminAuth', '1');
+        document.getElementById('gate').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        loadSubmissions();
+      } else {
+        document.getElementById('gateError').style.display = 'block';
+        document.getElementById('pwInput').value = '';
+        document.getElementById('pwInput').focus();
+      }
+    }
 
-  // Simple client-side password. For real security, add auth to your Lambda.
-  // Change this to something only you know.
-  const ADMIN_PASSWORD = 'anthony2025';
-  // ────────────────────────────────────────────────────────────
+    function logout() {
+      sessionStorage.removeItem('adminAuth');
+      location.reload();
+    }
 
-  let allSubmissions = [];
-  let activeFilter   = 'all';
-
-  // ── Password gate ──
-  function checkPassword() {
-    const val = document.getElementById('pwInput').value;
-    if (val === ADMIN_PASSWORD) {
-      sessionStorage.setItem('adminAuth', '1');
+    // Auto-restore session
+    if (sessionStorage.getItem('adminAuth') === '1') {
       document.getElementById('gate').style.display = 'none';
       document.getElementById('dashboard').style.display = 'block';
       loadSubmissions();
-    } else {
-      document.getElementById('gateError').style.display = 'block';
-      document.getElementById('pwInput').value = '';
-      document.getElementById('pwInput').focus();
-    }
-  }
-
-  function logout() {
-    sessionStorage.removeItem('adminAuth');
-    location.reload();
-  }
-
-  // Auto-restore session
-  if (sessionStorage.getItem('adminAuth') === '1') {
-    document.getElementById('gate').style.display = 'none';
-    document.getElementById('dashboard').style.display = 'block';
-    loadSubmissions();
-  }
-
-  // ── Load submissions ──
-  async function loadSubmissions() {
-    document.getElementById('cardGrid').innerHTML = '<div class="loading">Fetching submissions…</div>';
-
-    try {
-      const res  = await fetch(API_URL + '?action=list', { method: 'GET' });
-      const data = await res.json();
-      allSubmissions = (data.submissions || []).sort((a, b) =>
-        new Date(b.submittedAt) - new Date(a.submittedAt)
-      );
-    } catch (e) {
-      // Dev fallback — read from localStorage if API not set up yet
-      allSubmissions = JSON.parse(localStorage.getItem('anthony_submissions') || '[]')
-        .sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
-      console.warn('Using localStorage fallback. Set API_URL to use DynamoDB.');
     }
 
-    updateStats();
-    renderCards();
-    document.getElementById('lastRefresh').textContent =
-      'Last refreshed: ' + new Date().toLocaleTimeString();
-  }
+    // ── Load submissions ──
+    async function loadSubmissions() {
+      document.getElementById('cardGrid').innerHTML = '<div class="loading">Fetching submissions…</div>';
 
-  // ── Stats ──
-  function updateStats() {
-    const phone = allSubmissions.filter(s => s.contactType === 'phone').length;
-    const insta  = allSubmissions.filter(s => s.contactType === 'instagram').length;
-    document.getElementById('statTotal').textContent = allSubmissions.length;
-    document.getElementById('statPhone').textContent = phone;
-    document.getElementById('statInsta').textContent = insta;
-  }
+      try {
+        const res = await fetch(API_URL + '?action=list', { method: 'GET' });
+        const data = await res.json();
+        allSubmissions = (data.submissions || []).sort((a, b) =>
+          new Date(b.submittedAt) - new Date(a.submittedAt)
+        );
+      } catch (e) {
+        // Dev fallback — read from localStorage if API not set up yet
+        allSubmissions = JSON.parse(localStorage.getItem('anthony_submissions') || '[]')
+          .sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+        console.warn('Using localStorage fallback. Set API_URL to use DynamoDB.');
+      }
 
-  // ── Filter ──
-  function setFilter(f) {
-    activeFilter = f;
-    ['all','phone','instagram'].forEach(id => {
-      document.getElementById('f-' + id).classList.toggle('active', id === f);
-    });
-    renderCards();
-  }
+      updateStats();
+      renderCards();
+      document.getElementById('lastRefresh').textContent =
+        'Last refreshed: ' + new Date().toLocaleTimeString();
+    }
 
-  // ── Render ──
-  function renderCards() {
-    const filtered = activeFilter === 'all'
-      ? allSubmissions
-      : allSubmissions.filter(s => s.contactType === activeFilter);
+    // ── Stats ──
+    function updateStats() {
+      const phone = allSubmissions.filter(s => s.contactType === 'phone').length;
+      const insta = allSubmissions.filter(s => s.contactType === 'instagram').length;
+      document.getElementById('statTotal').textContent = allSubmissions.length;
+      document.getElementById('statPhone').textContent = phone;
+      document.getElementById('statInsta').textContent = insta;
+    }
 
-    const grid = document.getElementById('cardGrid');
+    // ── Filter ──
+    function setFilter(f) {
+      activeFilter = f;
+      ['all', 'phone', 'instagram'].forEach(id => {
+        document.getElementById('f-' + id).classList.toggle('active', id === f);
+      });
+      renderCards();
+    }
 
-    if (!filtered.length) {
-      grid.innerHTML = `
+    // ── Render ──
+    function renderCards() {
+      const filtered = activeFilter === 'all'
+        ? allSubmissions
+        : allSubmissions.filter(s => s.contactType === activeFilter);
+
+      const grid = document.getElementById('cardGrid');
+
+      if (!filtered.length) {
+        grid.innerHTML = `
         <div class="empty">
           <div>🌵</div>
           <p>No ${activeFilter === 'all' ? '' : activeFilter + ' '}submissions yet.<br>Share the QR code!</p>
         </div>`;
-      return;
-    }
+        return;
+      }
 
-    grid.innerHTML = filtered.map(s => {
-      const initials = s.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
-      const time = new Date(s.submittedAt).toLocaleString(undefined, {
-        month: 'short', day: 'numeric',
-        hour: '2-digit', minute: '2-digit'
-      });
-      const isPhone = s.contactType === 'phone';
-      const contactIcon = isPhone ? '📱' : '📸';
-      const badgeClass  = isPhone ? 'badge-phone' : 'badge-insta';
-      const badgeLabel  = isPhone ? 'Phone' : 'Instagram';
+      grid.innerHTML = filtered.map(s => {
+        const initials = s.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+        const time = new Date(s.submittedAt).toLocaleString(undefined, {
+          month: 'short', day: 'numeric',
+          hour: '2-digit', minute: '2-digit'
+        });
+        const isPhone = s.contactType === 'phone';
+        const contactIcon = isPhone ? '📱' : '📸';
+        const badgeClass = isPhone ? 'badge-phone' : 'badge-insta';
+        const badgeLabel = isPhone ? 'Phone' : 'Instagram';
 
-      return `
+        return `
         <div class="entry-card">
           <div class="avatar">${initials}</div>
           <div class="entry-info">
@@ -454,17 +498,18 @@
           </div>
           <span class="badge ${badgeClass}">${badgeLabel}</span>
         </div>`;
-    }).join('');
-  }
+      }).join('');
+    }
 
-  function escHtml(str) {
-    return String(str)
-      .replace(/&/g,'&amp;')
-      .replace(/</g,'&lt;')
-      .replace(/>/g,'&gt;')
-      .replace(/"/g,'&quot;');
-  }
-</script>
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+  </script>
 
 </body>
+
 </html>
