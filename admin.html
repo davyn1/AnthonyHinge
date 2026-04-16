@@ -385,26 +385,22 @@
     // API Gateway URL
     const API_URL = 'https://imro2j0vq1.execute-api.us-east-2.amazonaws.com';
 
-    // admin page password
-    const ADMIN_PASSWORD = 'anthony2025';
-    // ────────────────────────────────────────────────────────────
-
     let allSubmissions = [];
     let activeFilter = 'all';
 
     // ── Password gate ──
+    let enteredPassword = '';
+
     function checkPassword() {
-      const val = document.getElementById('pwInput').value;
-      if (val === ADMIN_PASSWORD) {
-        sessionStorage.setItem('adminAuth', '1');
-        document.getElementById('gate').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'block';
-        loadSubmissions();
-      } else {
+      enteredPassword = document.getElementById('pwInput').value;
+      if (enteredPassword === '') {
         document.getElementById('gateError').style.display = 'block';
-        document.getElementById('pwInput').value = '';
-        document.getElementById('pwInput').focus();
+        return;
       }
+      sessionStorage.setItem('adminAuth', '1');
+      document.getElementById('gate').style.display = 'none';
+      document.getElementById('dashboard').style.display = 'block';
+      loadSubmissions();
     }
 
     function logout() {
@@ -424,7 +420,7 @@
       document.getElementById('cardGrid').innerHTML = '<div class="loading">Fetching submissions…</div>';
 
       try {
-        const res = await fetch(API_URL + '?action=list', { method: 'GET' });
+        const res = await fetch(API_URL + '?action=list&password=' + encodeURIComponent(enteredPassword), { method: 'GET' });
         const data = await res.json();
         allSubmissions = (data.submissions || []).sort((a, b) =>
           new Date(b.submittedAt) - new Date(a.submittedAt)
