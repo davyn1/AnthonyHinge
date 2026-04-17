@@ -398,6 +398,7 @@
         return;
       }
       sessionStorage.setItem('adminAuth', '1');
+      sessionStorage.setItem('adminPassword', enteredPassword); // save password
       document.getElementById('gate').style.display = 'none';
       document.getElementById('dashboard').style.display = 'block';
       loadSubmissions();
@@ -405,11 +406,13 @@
 
     function logout() {
       sessionStorage.removeItem('adminAuth');
+      sessionStorage.removeItem('adminPassword'); // clear password on logout
       location.reload();
     }
 
     // Auto-restore session
     if (sessionStorage.getItem('adminAuth') === '1') {
+      enteredPassword = sessionStorage.getItem('adminPassword') || ''; // restore password
       document.getElementById('gate').style.display = 'none';
       document.getElementById('dashboard').style.display = 'block';
       loadSubmissions();
