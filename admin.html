@@ -332,9 +332,10 @@
     <div style="font-size:36px;margin-bottom:10px;">🔐</div>
     <h2>Admin Access</h2>
     <p>Enter the admin password to view submissions.</p>
-    <input id="pwInput" class="inp" type="password" placeholder="Password"
-      onkeydown="if(event.key==='Enter') checkPassword()">
-    <button class="btn-primary" onclick="checkPassword()">Enter</button>
+    <form onsubmit="event.preventDefault(); checkPassword()">
+      <input id="pwInput" class="inp" type="password" placeholder="Password" autocomplete="current-password">
+      <button type="submit" class="btn-primary">Enter</button>
+    </form>
     <div id="gateError">LOL u typed the password in wrong.</div>
   </div>
 
@@ -417,6 +418,13 @@
       document.getElementById('gate').style.display = 'none';
       document.getElementById('dashboard').style.display = 'block';
       loadSubmissions();
+    }
+
+    // ── Logout ──
+    function logout() {
+      sessionStorage.removeItem('adminAuth');
+      sessionStorage.removeItem('adminPassword');
+      location.reload();
     }
 
     // Auto-restore session
