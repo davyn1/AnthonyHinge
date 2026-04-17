@@ -335,7 +335,7 @@
     <input id="pwInput" class="inp" type="password" placeholder="Password"
       onkeydown="if(event.key==='Enter') checkPassword()">
     <button class="btn-primary" onclick="checkPassword()">Enter</button>
-    <div id="gateError">Wrong password. Try again.</div>
+    <div id="gateError">LOL u typed the password in wrong.</div>
   </div>
 
   <!-- ── Dashboard ── -->
@@ -391,23 +391,32 @@
     // ── Password gate ──
     let enteredPassword = '';
 
-    function checkPassword() {
+    async function checkPassword() {
       enteredPassword = document.getElementById('pwInput').value;
       if (enteredPassword === '') {
         document.getElementById('gateError').style.display = 'block';
         return;
       }
+
+      // Test the password against Lambda before letting in
+      try {
+        const res = await fetch(API_URL + '?action=list&password=' + encodeURIComponent(enteredPassword), { method: 'GET' });
+        if (res.status === 401 || res.status === 400) {
+          document.getElementById('gateError').style.display = 'block';
+          document.getElementById('pwInput').value = '';
+          document.getElementById('pwInput').focus();
+          enteredPassword = '';
+          return;
+        }
+      } catch (e) {
+        console.error('Auth check failed:', e);
+      }
+
       sessionStorage.setItem('adminAuth', '1');
-      sessionStorage.setItem('adminPassword', enteredPassword); // save password
+      sessionStorage.setItem('adminPassword', enteredPassword);
       document.getElementById('gate').style.display = 'none';
       document.getElementById('dashboard').style.display = 'block';
       loadSubmissions();
-    }
-
-    function logout() {
-      sessionStorage.removeItem('adminAuth');
-      sessionStorage.removeItem('adminPassword'); // clear password on logout
-      location.reload();
     }
 
     // Auto-restore session
