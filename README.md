@@ -17,7 +17,7 @@ A personal "Hinge-style" matchmaking page for Anthony Ha. Visitors can view Anth
 
 ## Admin Access
 
-Open `admin.html` and enter the admin password (default: `anthony2025`). Change the `ADMIN_PASSWORD` constant in `admin.html` before sharing the page.
+https://lookingfortheone.netlify.app/admin.html
 
 ## Setup
 
