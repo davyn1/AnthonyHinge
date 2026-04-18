@@ -847,7 +847,7 @@
       };
 
       try {
-        if (API_URL && API_URL !== 'https://imro2j0vq1.execute-api.us-east-2.amazonaws.com/submit') {
+        if (API_URL && API_URL !== 'YOUR_API_GATEWAY_URL_HERE') {
           await fetch(API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
